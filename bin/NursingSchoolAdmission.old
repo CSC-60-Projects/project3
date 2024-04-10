@@ -1,0 +1,209 @@
+
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Scanner;
+
+public class NursingSchoolAdmission {
+
+
+    static class Node {
+        double score;
+        String answer;
+        int layer;
+        boolean numberNode = false;
+        boolean stringNode = false;
+        static int height = 0;
+        Map<Double, Node> numberMap = new HashMap<>();
+        Map<String, Node> stringMap = new HashMap<>();
+
+        static String[] questions = {
+                "what is your current gpa?",
+                "what is your TEAS score?",
+                "have you completed the required science prerequisites?",
+                "have you completed the required english prerequisites?",
+        };
+
+        public Node(double score, int layer) {
+            this.score = score;
+            this.layer = layer;
+        }
+
+        public Node(double score, String answer, int layer) {
+            this.score = score;
+            this.answer = answer;
+            this.layer = layer;
+        }
+
+        public void addNumberOptions(Node[] nodes) {
+            if(stringNode) {
+                System.out.println("Cannot add number options to a string node");
+                return;
+            }
+            numberNode = true;
+            for (Node node : nodes) {
+                numberMap.put(node.score, node);
+            }
+        }
+
+
+        public void addStringOptions(Node[] nodes) {
+            stringNode = true;
+            if(numberNode) {
+                System.out.println("Cannot add string options to a number node");
+                return;
+            }
+            for (Node node : nodes) {
+                stringMap.put(node.answer, node);
+            }
+        }
+
+
+        public void printQuestion() {
+            System.out.println(questions[layer]);
+        }
+
+        public void printChoices() {
+            if (numberNode) {
+                System.out.println("Choices:");
+                Double[] keys = numberMap.keySet().toArray(new Double[0]);
+                //sort the keys
+                Arrays.sort(keys);
+                for (int i = 0; i < keys.length; i++) {
+                    System.out.println("-> "+keys[i]);
+                }
+                System.out.print("Enter your choice: ");
+                
+            } else if (stringNode) {
+                System.out.println("Choices: ");
+                for (String key : stringMap.keySet()) {
+                    System.out.println("-> "+key);
+                }
+                System.out.print("Enter your choice: ");
+            }
+        }
+
+        public Node getNextNode(Scanner scanner) {
+            if (numberNode) {
+                String score = scanner.nextLine();
+                double scoreDouble = Double.parseDouble(score);
+                return numberMap.get(scoreDouble);
+            } else if (stringNode) {
+                String answer = scanner.nextLine();
+                Node nextNode = stringMap.get(answer);
+                System.out.println(nextNode.answer);
+                System.out.println(nextNode.score);
+                return stringMap.get(answer);
+            }
+            return null;
+        }
+
+    }
+
+    static class Applicant {
+        String name;
+        int ranking;
+        boolean eligibility;
+
+        public Applicant(String name) {
+            this.name = name;
+            this.ranking = 0;
+            this.eligibility = true;
+        }
+
+    }
+
+    public static void main(String[] args) {
+        // intializing all the nodes
+        //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+        Node root = new Node(1, 0);
+        Node gpa_Nodes[] = {
+                new Node(3.5, 1),
+                new Node(3.6, 1),
+                new Node(3.7, 1),
+                new Node(3.8, 1),
+                new Node(3.9, 1),
+                new Node(4.0, 1),
+        };
+
+        Node teas_Nodes[] = {
+                new Node(1.0, 2),
+                new Node(2.0, 2),
+                new Node(3.0, 2),
+                new Node(4.0, 2),
+        };
+
+        Node sciencePreReqs[] = {
+                new Node(1,"yes", 3),
+                new Node(0,"no", 3),
+        };
+
+        Node englishPreReqs[] = {
+                new Node(1,"yes", 4),
+                new Node(0,"no", 4),
+        };
+
+
+        for (int i = 0; i < sciencePreReqs.length; i++) {
+            sciencePreReqs[i].addStringOptions(englishPreReqs);
+        }
+        for (int i = 0; i < teas_Nodes.length; i++) {
+            teas_Nodes[i].addStringOptions(sciencePreReqs);
+        }
+        // for each node in the gpa nodes, add the teas nodes as options
+        for (int i = 0; i < gpa_Nodes.length; i++) {
+            gpa_Nodes[i].addNumberOptions(teas_Nodes);
+        }
+        
+
+        
+        root.addNumberOptions(gpa_Nodes);
+
+        //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+
+
+        class Applicant {
+            String name;
+            int ranking;
+            boolean eligibility;
+
+            public Applicant(String name) {
+                this.name = name;
+                this.ranking = 0;
+                this.eligibility = true;
+            }
+
+        }
+        Scanner scanner = new Scanner(System.in);
+        // Create a new applicant
+        Applicant applicant = new Applicant(getName(scanner));
+
+        Node nextNode = root;
+
+
+        applicant.ranking = 1;
+        for(int i = 0; i < Node.questions.length; i++) {
+            //multiplies so that node with score zero means the applicant is not eligible
+            applicant.ranking *= nextNode.score;
+            System.out.println("Your ranking is: " + applicant.ranking);
+            nextNode.printQuestion();
+            nextNode.printChoices();
+            nextNode = nextNode.getNextNode(scanner);
+            if(i == 3){
+                System.out.println("You have completed the application process");
+                System.out.println("Your ranking is: " + applicant.ranking);
+                break;
+            }
+        }
+
+    }
+
+
+    static String getName(Scanner scanner){
+        System.out.println("Enter your name: ");
+        String name = scanner.nextLine();
+        return name;
+    }
+
+}
