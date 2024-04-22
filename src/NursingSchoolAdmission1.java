@@ -128,7 +128,7 @@ public class NursingSchoolAdmission1 {
         List<Applicant> applicants = new ArrayList<>();
         int applicantCounter = 1; // Counter for applicants
 
-        while (applicantCounter <= 5) {
+        while (applicantCounter <= 3) {
             System.out.println("Enter applicant's name: ");
             String name = scanner.nextLine();
             double ranking = 0;
