@@ -1,0 +1,10 @@
+In order to push code you need to run these commands
+
+
+git add .    -> adds all files
+
+git commit -m "your message" ---> commits your code with your comment
+
+git push origin main
+
+
