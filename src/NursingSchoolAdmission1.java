@@ -190,27 +190,6 @@ public class NursingSchoolAdmission1 {
 
         mainLoop(wind);
 
-        // wind.removeElements();
-
-        // String htmlTable = "<html>\n" +
-        // "    <table border=\"1\">\n" +
-        // "        <tr>\n" +
-        // "            <th>Applicant</th>\n" +
-        // "            <th>Name</th>\n" +
-        // "            <th>Ranking</th>\n" +
-        // "            <th>Eligibility</th>\n" +
-        // "        </tr>\n" +
-        // "        <tr>\n" +
-        // "            <td>Applicant 1</td>\n" +
-        // "            <td>sdfds</td>\n" +
-        // "            <td>17.5</td>\n" +
-        // "            <td>Very eligible</td>\n" +
-        // "        </tr>\n" +
-        // "    </table>\n" +
-        // "</html>";
-
-
-        // wind.setLabel(htmlTable);
 
         
 
@@ -225,7 +204,7 @@ public class NursingSchoolAdmission1 {
         int applicantCounter = 1; // Counter for applicants
         Node root = initializeNodes();
 
-        while (applicantCounter <= 3) {
+        while (applicantCounter <= 5) {
             window.setApplicantNumber(applicantCounter);
             System.out.println("Enter your name: ");
             window.setLabel("Enter your name:");
