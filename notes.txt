@@ -1,0 +1,3 @@
+Range input must be stored in an array instead of a map. 
+
+I must loop through them and check if the range is adequate for the map
