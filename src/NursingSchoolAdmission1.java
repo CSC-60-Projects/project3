@@ -41,6 +41,9 @@ public class NursingSchoolAdmission1 {
                 "have you completed the required English prerequisites?",
                 "Have you attained a Bachelor's Degree?",
                 "How many years of work experience do you have?"
+                "Do you have any healthcare certifications? (e.g., CNA, EMT)",
+                "How many hours of volunteer work have you completed ?",
+                "Have you completed the required psychology prerequisites ?",
         };
 
         public Node(double score, String answer, int layer) {
@@ -322,8 +325,30 @@ public class NursingSchoolAdmission1 {
                 new Node(4.0, 5.0, 4.5, 6),
                 new Node(5.0, 6.0, 5.5, 6),
         };
+         Node healthcareCertNodes[] = {
+        new Node(0, "none", 7),
+        new Node(1, "CNA", 7),
+        new Node(2, "EMT", 7),
+        // Add more nodes for healthcare certifications as needed
+              };
+               Node volunteerWorkNodes[] = {
+        new Node(0, "0", 8),
+        new Node(1, "1-50", 8),
+        new Node(2, "51-100", 8),
+        // Add more nodes for volunteer work as needed
+            };
+             Node PsyPreReqs[] = {
+                    new Node(1, "yes", 9),
+                    new Node(0, "no", 9),
+            };
 
         // Linking the nodes
+        for (int i = 0; i < bachelorsDegreeNodes.length; i++) {
+                volunteerWorkNodes[i].addStringOptions(PsyPreReqs);}
+            for (int i = 0; i < bachelorsDegreeNodes.length; i++) {
+                healthcareCertNodes[i].addStringOptions(volunteerWorkNodes);}
+            for (int i = 0; i < bachelorsDegreeNodes.length; i++) {
+                workExperienceNodes[i].addStringOptions(healthcareCertNodes);}
         for (int i = 0; i < bachelorsDegreeNodes.length; i++) {
             bachelorsDegreeNodes[i].addRangedOptions(workExperienceNodes);
         }
